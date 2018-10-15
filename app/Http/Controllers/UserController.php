@@ -12,14 +12,13 @@ class UserController extends Controller
 {
     //
         // register a user
-        public function store(Request $request)
-        {
+        public function store(Request $request){
             $validator = Validator::make($request->all(),[
-                'name' => 'required|min:2|max:35',
-                'email' => 'required|unique:users|min:2|max:35',
-                'mobile_number' => 'required|min:10|max:15|unique:users',
-                'address' => 'min:2|max:50',
-                'password' => 'required|min:6|max:20'
+                'name' => 'required| min:2| max:35',
+                'email' => 'required| unique:users| min:2| max:35',
+                'mobile_number' => 'required| min:10| max:15| unique:users',
+                'address' => 'min:2| max:50',
+                'password' => 'required| min:6| max:20'
             ]);
 
             if ($validator->fails()) {
@@ -36,4 +35,8 @@ class UserController extends Controller
                     return new Response(['error'=>"error", 'user' => $userData],400);
     
         }
+        public function login(Request $request){
+
+        }
+
 }
