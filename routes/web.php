@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('api')->group(function () {
+    Route::post('/users/register','UserController@store');
+});
