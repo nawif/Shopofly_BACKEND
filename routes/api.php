@@ -24,7 +24,7 @@ Route::group([
 
 });
 Route::group([
-    'prefix' => 'user'
+    'prefix' => 'users'
 
 ], function () {
     Route::post('register','UserController@store');
