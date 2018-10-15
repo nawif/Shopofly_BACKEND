@@ -11,10 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::prefix('api')->group(function () {
-    Route::post('/users/register','UserController@store');
-});
+// Route::prefix('api')->group(function () {
+//     Route::post('/users/register','UserController@store');
+//     Route::post('/users/login','UserController@Authenticate');
+//     Route::post('/users/isLoggedIn','UserController@isLoggedIn');
+
+
+// });
