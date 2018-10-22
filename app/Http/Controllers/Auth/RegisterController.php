@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 
 namespace App\Http\Controllers\Auth;
 

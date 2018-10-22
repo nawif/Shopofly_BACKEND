@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreStart
 
 namespace App\Http\Controllers;
 
@@ -13,7 +14,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class UserController extends Controller
 {
     //
-        // register a user
+        /* *
+        register a user
+        */
         public function store(Request $request){
             $validator = Validator::make($request->all(),[
                 'name' => 'required| min:2| max:35',
@@ -26,7 +29,7 @@ class UserController extends Controller
                 return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
            }
             $credentials = $request->only('name','email','password','mobile_number','address');
-            $credentials['password'] = \Hash::make($credentials['password']);    
+            $credentials['password'] = \Hash::make($credentials['password']);
             $user = User::create($credentials);
             if (!$user){
                 return new Response(['error'=>"error", 'user' => $user],400);
