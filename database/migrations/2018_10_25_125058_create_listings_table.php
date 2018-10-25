@@ -15,10 +15,14 @@ class CreateListingsTable extends Migration
     {
         Schema::create('listings', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('key')->unique();
             $table->string('itemName');
             $table->string('price');
-            $table->integer('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('Supplier');
+            $table->longText('description');
+            $table->unsignedInteger('supplier_id');
+            $table->foreign('supplier_id')
+            ->references('id')->on('suppliers')
+            ->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });
