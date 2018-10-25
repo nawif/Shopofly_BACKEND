@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use App\Supplier;
+
 
 class SupplierController extends Controller
 {
@@ -10,18 +14,18 @@ class SupplierController extends Controller
     public function store(Request $request){
         // $user=$this->getAuthenticatedUser();
         $validator = Validator::make($request->all(),[
-            'name' => 'required| min:2| max:35',
+            'supplierName' => 'required| min:2| max:35',
             'description' => 'min:10| max:500'
         ]);
         if ($validator->fails()) {
             return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
        }
-        $credentials = $request->only('name','description');
-        $user = Supplier::create($credentials);
-        if (!$user){
-            return new Response(['error'=>"error", 'user' => $user],400);
+        $credentials = $request->only('supplierName','description');
+        $Supplier = Supplier::create($credentials);
+        if (!$Supplier){
+            return new Response(['error'=>"error", 'user' => $Supplier],400);
         }
-        return Response::make("Done", 200, "supplier $credentials created");
+        return new Response(['Done'=>"done", 'user' => $Supplier],400);
     }
 
     public function getAuthenticatedUser()

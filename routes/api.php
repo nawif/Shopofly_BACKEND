@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 
 Route::group([
     'prefix' => 'auth'
-
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
@@ -29,4 +28,18 @@ Route::group([
 
 ], function () {
     Route::post('register','UserController@store');
+});
+Route::group([
+    'prefix' => 'suppliers'
+
+], function () {
+    Route::post('register','SupplierController@store');
+});
+Route::group([
+    'prefix' => 'store'
+
+], function () {
+    Route::post('addListing','ListingController@addListing');
+    Route::get('item/{key}','ListingController@getListing');
+
 });
