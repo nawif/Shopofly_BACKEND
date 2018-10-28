@@ -12,7 +12,7 @@ class ListingImage extends Model
      * @var array
      */
     protected $fillable = [
-        'imageName', 'listing_id'
+        'image_name', 'listing_id'
     ];
 
     /**
