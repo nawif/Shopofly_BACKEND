@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Storage;
 class ListingController extends Controller
 {
     public function getListing($key){
+        $Listing = $this->queryListing($key);
+        return new Response($Listing,200);
+    }
+    public function queryListing($key){
         $Listing = Listing::where('key', '=', $key)->first();
         if(!$Listing){
             return new Response(['error' => "unvalid request"],400);
@@ -26,7 +30,7 @@ class ListingController extends Controller
             $Listing['image_url'][]=asset($url);
         }
         unset($Listing['images']);
-        return new Response($Listing,200);
+        return $Listing;
     }
 
     public function generateListingKey(){
@@ -79,6 +83,7 @@ class ListingController extends Controller
                 $ListingImage['listing_id']=$Listing['id'];
                 Storage::put($folder."/".$ListingImage['image_name'],file_get_contents($file));
                 ListingImage::create($ListingImage);
+
             }
         }
         return new Response("image added!",200);
@@ -87,11 +92,15 @@ class ListingController extends Controller
     public function getSupplierListing($id){
         $Supplier = Supplier::where('id', '=', $id)->first();
         if(!$Supplier)
-            return new Response(['error' => "unvalid request"],400);
-        $Listing=$Supplier->listings;
-        return new Response($Listing,200);
+            return new Response(['error' => "unvalid supplier"],400);
 
-        $images=$Listing->images;
+        $Listing['supplierName']=$Supplier['supplierName'];
+        $Listing['description']=$Supplier['description'];
+
+        foreach ($Supplier['listings'] as $value) {
+            $Listing['listings'][]=$this->queryListing($value['key']);
+        }
+        return new Response($Listing,200);
     }
 
 
