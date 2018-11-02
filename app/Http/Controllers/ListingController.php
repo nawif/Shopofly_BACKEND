@@ -23,8 +23,8 @@ class ListingController extends Controller
             return new Response(['error' => "unvalid request"],400);
         }
         $images=$Listing->images;
-        $Listing=$Listing->toArray();
         $Supplier=$Listing->supplier;
+        $Listing=$Listing->toArray();
         $filePath="listingsImages/";
         foreach ($images as $image) {
             $url = Storage::url($filePath.$image['image_name']);
