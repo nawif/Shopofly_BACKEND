@@ -24,12 +24,17 @@ class ListingController extends Controller
         }
         $images=$Listing->images;
         $Listing=$Listing->toArray();
+        $Supplier=$Listing->supplier;
         $filePath="listingsImages/";
         foreach ($images as $image) {
             $url = Storage::url($filePath.$image['image_name']);
             $Listing['image_url'][]=asset($url);
         }
         unset($Listing['images']);
+        unset($Listing['supplier_id']);
+        unset($Listing['id']);
+        $Listing['supplier']=$Supplier;
+
         return $Listing;
     }
 
