@@ -23,7 +23,7 @@ class ListingController extends Controller
     public function queryListing($key){
         $Listing = Listing::where('key', '=', $key)->first();
         if(!$Listing){
-            return new Response('unvalid key',401);
+            return null;
         }
         $images=$Listing->images;
         $Supplier=$Listing->supplier;
