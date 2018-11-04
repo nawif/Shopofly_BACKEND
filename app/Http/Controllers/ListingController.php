@@ -15,12 +15,14 @@ class ListingController extends Controller
 {
     public function getListing($key){
         $Listing = $this->queryListing($key);
+        if(is_null($Listing))
+
         return new Response($Listing,200);
     }
     public function queryListing($key){
         $Listing = Listing::where('key', '=', $key)->first();
         if(!$Listing){
-            return new Response(['error' => "unvalid request"],400);
+            return new Response('unvalid key',401);
         }
         $images=$Listing->images;
         $Supplier=$Listing->supplier;

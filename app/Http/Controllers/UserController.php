@@ -23,7 +23,7 @@ class UserController extends Controller
                 'email' => 'required| unique:users| min:2| max:35',
                 'mobile_number' => 'unique:users',
                 'address' => 'max:50',
-                'password' => 'required| min:6| max:20'
+                'password' => 'required| min:6| max:126'
             ]);
             if ($validator->fails()) {
                 return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
