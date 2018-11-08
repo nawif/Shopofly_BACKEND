@@ -16,7 +16,7 @@ class ListingController extends Controller
     public function getListing($key){
         $Listing = $this->queryListing($key);
         if(is_null($Listing)){
-            return new Response(["error"=>"unvalid listing key"],200);
+            return new Response(["error"=>"unvalid listing key"],400);
         }else
             return new Response($Listing,200);
     }
@@ -36,6 +36,7 @@ class ListingController extends Controller
         unset($Listing['images']);
         unset($Listing['supplier_id']);
         unset($Listing['id']);
+
         $Listing['supplier']=$Supplier;
 
         return $Listing;
