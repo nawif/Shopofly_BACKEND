@@ -19,16 +19,13 @@ class UserController extends Controller
         */
         public function store(Request $request){
             $validator = Validator::make($request->all(),[
-                'name' => 'max:35',
-                'email' => 'required| unique:users| min:2| max:35',
                 'mobile_number' => 'unique:users',
-                'address' => 'max:50',
-                'password' => 'required| min:6| max:126'
+                'password' => 'required| min:6| max:26'
             ]);
             if ($validator->fails()) {
                 return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
            }
-            $credentials = $request->only('name','email','password','mobile_number','address');
+            $credentials = $request->only('password','mobile_number');
             $credentials['password'] = \Hash::make($credentials['password']);
             $user = User::create($credentials);
             if (!$user){
