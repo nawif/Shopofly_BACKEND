@@ -19,7 +19,7 @@ class UserController extends Controller
         */
         public function store(Request $request){
             $validator = Validator::make($request->all(),[
-                'mobile_number' => 'unique:users',
+                'mobile_number' => 'required| unique:users',
                 'password' => 'required| min:6| max:26'
             ]);
             if ($validator->fails()) {
