@@ -29,6 +29,14 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /* @var array
+    */
+    protected $phoneTypes = [
+        'Customer',
+        'Delivery',
+        'Supplier'
+    ];
     public function getJWTIdentifier()
         {
             return $this->getKey();

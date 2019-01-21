@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class OrderController extends Controller
 {
     //
-    public function 
+    public function checkOut(Request $request){
+        dd("hello world");
+    }
 }

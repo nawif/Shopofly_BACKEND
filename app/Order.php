@@ -12,7 +12,7 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'status','listing_id','uder_id','address_id','quantity','delivery_id'
+        'status','listing_id','user_id','address_id','quantity','delivery_id'
     ];
 
     /**
@@ -22,5 +22,6 @@ class Order extends Model
      */
     protected $hidden = [
 
-    ];}
+    ];
+}
 
