@@ -26,8 +26,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
-    {
+    public function login(Request $request){
+
         $credentials = $request->only('mobile_number', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
