@@ -17,10 +17,10 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')
-            ->references('id')->on('users')
-            ->onDelete('cascade');
+            ->references('id')->on('users');
             $table->string('status')->default('active');
             $table->string('city');
+            $table->string('label');
             $table->string('country');
             $table->string('district');
             $table->string('street');
