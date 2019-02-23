@@ -35,9 +35,14 @@ class UserController extends Controller
             return response()->json(compact('user','token'),201);
         }
 
-        
+
         public function authenticate(Request $request){
 
+        }
+        //TODO: SECURITY CHECKS, ERROR HANDLING
+        public function getUserAddresses(){
+            $userAddress=$this->getAuthenticatedUser()->addresses()->get();
+            return response()->json($userAddress,200);
         }
 
         public function getAuthenticatedUser()
@@ -59,12 +64,14 @@ class UserController extends Controller
 
                         return response()->json(['token_absent'], $e->getStatusCode());
                 }
+                $token = JWTAuth::getToken();
+                $user = JWTAuth::toUser($token);
 
-                return response()->json(compact('user'));
+                return $user;
         }
         public function isLoggedIn(){
             $user=$this->getAuthenticatedUser();
-            return new Response(['error'=>"error", 'user' => $userData],400);
+            return new Response(['error'=>"error", 'user' => $user],400);
 
 
         }

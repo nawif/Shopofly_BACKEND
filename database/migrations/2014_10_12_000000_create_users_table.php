@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('type')->default(0);
             $table->string('mobile_number')->unique()->nullable();;
-            $table->longText('address')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

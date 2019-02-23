@@ -29,6 +29,8 @@ Route::group([
 
 ], function () {
     Route::post('register','UserController@store');
+    Route::get('address','UserController@getUserAddresses');
+
 });
 Route::group([
     'prefix' => 'suppliers'
@@ -44,6 +46,7 @@ Route::group(['middleware' => ['jwt.auth']],function(){
     ], function () {
         Route::post('addListing','ListingController@addListing');
         Route::get('item/{key}','ListingController@getListing');
+        Route::get('SupplierItems/{id}','ListingController@getSupplierListing');
         Route::get('SupplierItems/{id}','ListingController@getSupplierListing');
         Route::post('addListingImages/{key}','ListingController@addListingImages');
         Route::post('checkout','OrderController@checkOut');
