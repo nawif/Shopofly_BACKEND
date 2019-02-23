@@ -38,11 +38,34 @@ class User extends Authenticatable implements JWTSubject
         'Supplier'
     ];
     public function getJWTIdentifier()
-        {
-            return $this->getKey();
-        }
-        public function getJWTCustomClaims()
-        {
-            return [];
-        }
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    public function deliveries()
+    {
+        return $this->hasMany('App\Delivery');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Address');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
+    }
+
+
 }

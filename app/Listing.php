@@ -28,8 +28,27 @@ class Listing extends Model
     {
         return $this->belongsTo('App\Supplier');
     }
+
     public function images()
     {
         return $this->hasMany('App\ListingImage');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
+    }
+
+    public function specifications()
+    {
+        return $this->hasMany('App\ListingSpecification');
+    }
+
+
+
 }

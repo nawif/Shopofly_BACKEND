@@ -23,4 +23,13 @@ class Address extends Model
     protected $hidden = [
 
     ];
+
+    public function user(){
+        $this->belongsTo('App\User');
+    }
+
+    public function orders(){
+        $this->hasMany('App\Order');
+    }
+
 }

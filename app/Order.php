@@ -23,5 +23,30 @@ class Order extends Model
     protected $hidden = [
 
     ];
+
+    public function listing()
+    {
+        return $this->belongsTo('App\Listing');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo('App\Address');
+    }
+
+    public function delivery()
+    {
+        return $this->belongsTo('App\Delivery');
+    }
+
+    
+
+
+
 }
 

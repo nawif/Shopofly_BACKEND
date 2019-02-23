@@ -23,4 +23,20 @@ class Delivery extends Model
     protected $hidden = [
 
     ];
+
+    public function orders(){
+        $this->hasMany('App\Order');
+    }
+
+    public function transaction(){
+        $this->belongsTo('App\Transaction');
+    }
+
+    public function agent(){
+        $this->belongsTo('App\User');
+    }
+
+    
+
+
 }
