@@ -15,10 +15,19 @@ class CreateDeliveriesTable extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->increments('id');
+
             $table->unsignedInteger('delivery_agent_id');
             $table->foreign('delivery_agent_id')
             ->references('id')->on('users')
             ->onDelete('cascade');
+
+            $table->unsignedInteger('transaction_id');
+            $table->foreign('transaction_id')
+            ->references('id')->on('transactions')
+            ->onDelete('cascade');
+
+            $table->string('status')->default('record created');
+
             $table->timestamps();
         });
     }
