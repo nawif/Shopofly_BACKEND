@@ -27,7 +27,8 @@ class ListingController extends Controller
         }
         $images=$Listing->images;
         $Supplier=$Listing->supplier;
-        $reviews=$Listing->reviews;
+        // $reviews=$Listing->reviews;
+        $filePath="listingsImages/";
         $Listing=$Listing->toArray();
         foreach ($images as $image) {
             $url = Storage::url($filePath.$image['image_name']);
