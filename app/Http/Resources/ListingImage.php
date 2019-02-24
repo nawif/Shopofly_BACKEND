@@ -17,8 +17,6 @@ class ListingImage extends JsonResource
     {
         $filePath="listingsImages/";
 
-        return [
-            'image_url' => asset(Storage::url($filePath.$this->name))
-        ];
+        return asset(Storage::url($filePath.$this->name));
     }
 }

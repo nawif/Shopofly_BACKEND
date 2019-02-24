@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Listing;
 use App\ListingImage;
 use App\Supplier;
+use App\Http\Resources\Listing as ListingResource;
+use App\Http\Resources\Supplier as SupplierResource;
+
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -14,34 +17,10 @@ use Illuminate\Support\Facades\Storage;
 class ListingController extends Controller
 {
     public function getListing($key){
-        $Listing = $this->queryListing($key);
         if(is_null($Listing)){
             return new Response(["error"=>"unvalid listing key"],400);
         }else
-            return new Response($Listing,200);
-    }
-    public function queryListing($key){
-        $Listing = Listing::where('key', '=', $key)->first();
-        if(!$Listing){
-            return null;
-        }
-        $images=$Listing->images;
-        $Supplier=$Listing->supplier;
-        // $reviews=$Listing->reviews;
-        $filePath="listingsImages/";
-        $Listing=$Listing->toArray();
-        foreach ($images as $image) {
-            $url = Storage::url($filePath.$image['image_name']);
-            $Listing['image_url'][]=asset($url);
-        }
-        unset($Listing['images']);
-        unset($Listing['supplier_id']);
-        unset($Listing['id']);
-
-        $Listing['supplier']=$Supplier;
-        $Listing['supplier']=$Supplier;
-
-        return $Listing;
+            return new ListingResource(Listing::where('key', '=', $key)->first());
     }
 
     public function generateListingKey(){
@@ -104,15 +83,6 @@ class ListingController extends Controller
         $Supplier = Supplier::where('id', '=', $id)->first();
         if(!$Supplier)
             return new Response(['error' => "unvalid supplier"],400);
-
-        $Listing['supplierName']=$Supplier['supplierName'];
-        $Listing['description']=$Supplier['description'];
-
-        foreach ($Supplier['listings'] as $value) {
-            $Listing['listings'][]=$this->queryListing($value['key']);
-        }
-        return new Response($Listing,200);
+        return new Response (ListingResource::collection($Supplier->listings()->get()),200);
     }
-
-
 }

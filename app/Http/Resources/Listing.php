@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Resources;
+use App\Http\Resources\Supplier as SupplierResource;
+use App\Http\Resources\ListingImage as ListingImageResource;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,10 +22,10 @@ class Listing extends JsonResource
             'price' => $this->price,
             'description' => $this->description,
             'quantity' => $this->quantity,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'supplier' => Supplier::collection($this->supplier),
-            'image_url' => Supplier::collection($this->images),
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
+            'supplier' => new SupplierResource($this->supplier),
+            'image_url' => ListingImageResource::collection($this->images),
         ];
     }
 }
