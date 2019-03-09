@@ -12,7 +12,7 @@ class Delivery extends Model
      * @var array
      */
     protected $fillable = [
-        'delivery_agent_id'
+        'delivery_agent_id','transaction_id'
     ];
 
     /**
@@ -36,7 +36,7 @@ class Delivery extends Model
         $this->belongsTo('App\User');
     }
 
-    
+
 
 
 }

@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            
+
             $table->unsignedInteger('listing_id');
             $table->foreign('listing_id')
             ->references('id')->on('listings')
@@ -29,12 +29,12 @@ class CreateOrdersTable extends Migration
             ->references('id')->on('users')
             ->onDelete('cascade');
 
-            $table->unsignedInteger('address_id');
+            $table->integer('address_id')->unsigned()->nullable();
             $table->foreign('address_id')
             ->references('id')->on('addresses')
             ->onDelete('cascade');
 
-            $table->unsignedInteger('delivery_id');
+            $table->integer('delivery_id')->unsigned()->nullable();
             $table->foreign('delivery_id')
             ->references('id')->on('deliveries')
             ->onDelete('cascade');
