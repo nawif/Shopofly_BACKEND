@@ -16,7 +16,6 @@ class ListingImage extends JsonResource
     public function toArray($request)
     {
         $filePath="listingsImages/";
-
-        return asset(Storage::url($filePath.$this->name));
+        return asset(Storage::url($filePath.$this->image_name));
     }
 }
