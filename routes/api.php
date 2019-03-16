@@ -23,15 +23,26 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
 });
-//Exposed End points
+
+//User Exposed End points
 Route::group([
     'prefix' => 'users'
 
 ], function () {
     Route::post('register','UserController@store');
-    Route::get('address','UserController@getUserAddresses');
-
 });
+
+// User protected end points (has to be logged in to access)
+Route::group([
+    'prefix' => 'users', 'middleware' => ['jwt.auth']
+], function () {
+    Route::post('update', 'UserController@update');
+    Route::get('address','UserController@getUserAddresses');
+    // Route::get('show', 'UserController@show');
+});
+
+
+
 Route::group([
     'prefix' => 'suppliers'
 
@@ -50,6 +61,7 @@ Route::group(['middleware' => ['jwt.auth']],function(){
         Route::get('SupplierItems/{id}','ListingController@getSupplierListing');
         Route::post('addListingImages/{key}','ListingController@addListingImages');
         Route::post('checkout','OrderController@checkOut');
+        Route::get('/orders/{orderId}', 'OrderController@getOrderDetails');
         }
     );
 });

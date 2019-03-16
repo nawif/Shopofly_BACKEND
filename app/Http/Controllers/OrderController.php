@@ -17,7 +17,7 @@ class OrderController extends Controller
         $orders=$request->only('orders', 'address_id');
         $user = Auth::user();
         // dd($orders['orders'][0]['key']);
-        foreach ($orders['orders'] as $order ) { // Checking Availablity
+        foreach ($orders['orders'] as $order) { // Checking Availablity
             if(!$this->isAvailable($order['key'], $order['quantity']))
                 return new Response("Sorry, item is sold out",400);
         }
@@ -28,7 +28,7 @@ class OrderController extends Controller
             $placedOrder=Order::create($placedOrder);
         }
 
-        return new Response("Order Placed!",200);
+        return new Response(['orderNumber' => $placedOrder->id],200);
     }
 
     public function isAvailable($key , $quantity)
@@ -39,5 +39,15 @@ class OrderController extends Controller
         else
             return false;
     }
+
+    public function getOrderDetails($orderId) {
+        $order = Order::find($orderId);
+        if (!$order)
+            return new Response(['error' => 'Could not find an order with the given order id.'], 400);
+        
+        return new Response(['order' => $order], 200);
+    }
+
+    
 
 }
