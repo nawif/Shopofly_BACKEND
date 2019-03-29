@@ -33,9 +33,9 @@ class User extends Authenticatable implements JWTSubject
     /* @var array
     */
     protected $userTypes = [
-        'Customer',
-        'Delivery',
-        'Supplier'
+        'Customer' => 0,
+        'Delivery' => 1,
+        'Supplier' => 2
     ];
     public function getJWTIdentifier()
     {
