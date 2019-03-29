@@ -9,25 +9,33 @@ use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use App\Order;
 use App\Delivery;
+use App\Transaction;
+use App\User;
 
 class OrderController extends Controller
 {
     //
     public function checkOut(Request $request){
         $orders=$request->only('orders', 'address_id');
-        $user = Auth::user();
-        // dd($orders['orders'][0]['key']);
-        foreach ($orders['orders'] as $order) { // Checking Availablity
+        foreach ($orders['orders'] as $order) { // Checking availability
             if(!$this->isAvailable($order['key'], $order['quantity']))
                 return new Response("Sorry, item is sold out",400);
         }
-        foreach ($orders['orders'] as $order) {
-            Listing::where('key', '=',$order['key'])->decrement('quantity',$order['quantity']);
-            $listing=Listing::where('key', '=',$order['key'])->first();
-            $placedOrder = ['address_id' =>$orders['address_id'] , 'quantity' => $order['quantity'],'listing_id' => $listing->id,'user_id'=>$user->id ];
-            $placedOrder=Order::create($placedOrder);
-        }
+        $transaction = Transaction::create();
+        $user = Auth::user();
+        $deliveryAgent = User::where('type','=',1)->first();
+        $placedOrder = Order::create([
+            'user_id' => $user->id,
+            'address_id' => $orders['address_id'],
+            'delivery_agent_id' => $deliveryAgent->id,
+            'transaction_id' => $transaction->id
+        ]);
 
+        foreach ($orders['orders'] as $order) {
+            $listing=Listing::where('key', '=' ,$order['key'])->first();
+            $listing->decrement('quantity');
+            $placedOrder->listings()->attach($listing);
+        }
         return Response(['orderNumber' => $placedOrder->id],200);
     }
 
@@ -42,6 +50,7 @@ class OrderController extends Controller
 
     public function getOrderDetails($orderId) {
         $order = Order::find($orderId);
+
         if (!$order)
             return Response(['error' => 'Could not find an order with the given order id.'], 400);
 
