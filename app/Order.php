@@ -12,7 +12,7 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'status','listing_id','user_id','address_id','quantity','delivery_id'
+        'status','user_id','address_id','delivery_agent_id', 'transaction_id'
     ];
 
     /**
@@ -24,11 +24,6 @@ class Order extends Model
 
     ];
 
-    public function listing()
-    {
-        return $this->belongsTo('App\Listing');
-    }
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -39,11 +34,19 @@ class Order extends Model
         return $this->belongsTo('App\Address');
     }
 
-    public function delivery()
+    public function deliveryAgent()
     {
-        return $this->belongsTo('App\Delivery');
+        return $this->belongsTo('App\User','delivery_agent_id');
     }
 
+    public function transaction()
+    {
+        return $this->hasOne('App\Transaction');
+    }
+    public function listings()
+    {
+        return $this->belongsToMany('App\Listing','orders_listings')->withPivot('quantity');
+    }
 
 
 
