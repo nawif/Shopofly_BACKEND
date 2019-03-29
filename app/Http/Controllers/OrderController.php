@@ -43,9 +43,9 @@ class OrderController extends Controller
     public function getOrderDetails($orderId) {
         $order = Order::find($orderId);
         if (!$order)
-            return new Response(['error' => 'Could not find an order with the given order id.'], 400);
+            return Response(['error' => 'Could not find an order with the given order id.'], 400);
 
-        return new Response(['order' => $order], 200);
+        return Response(['order' => $order], 200);
     }
 
 
