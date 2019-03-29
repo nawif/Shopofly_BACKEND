@@ -17,11 +17,6 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->unsignedInteger('listing_id');
-            $table->foreign('listing_id')
-            ->references('id')->on('listings')
-            ->onDelete('cascade');
-
             $table->string('status')->default('Order Placed');
 
             $table->unsignedInteger('user_id');
@@ -34,12 +29,15 @@ class CreateOrdersTable extends Migration
             ->references('id')->on('addresses')
             ->onDelete('cascade');
 
-            $table->integer('delivery_id')->unsigned()->nullable();
-            $table->foreign('delivery_id')
-            ->references('id')->on('deliveries')
+            $table->integer('delivery_agent_id')->unsigned()->nullable();
+            $table->foreign('delivery_agent_id')
+            ->references('id')->on('users')
             ->onDelete('cascade');
 
-            $table->integer('quantity')->unsigned();
+            $table->integer('transaction_id')->unsigned()->nullable();
+            $table->foreign('transaction_id')
+            ->references('id')->on('transactions')
+            ->onDelete('cascade');
         });
     }
 
