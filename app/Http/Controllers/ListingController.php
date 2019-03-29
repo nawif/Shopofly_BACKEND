@@ -18,11 +18,11 @@ class ListingController extends Controller
 {
     public function getListing($key){
         $Listing=Listing::where('key', '=', $key)->first();
-        // dd($Listing);
+
         if(is_null($Listing)){
             return new Response(["error"=>"unvalid listing key"],400);
         }else
-            return new ListingResource($Listing->first());
+            return new ListingResource($Listing);
     }
 
     public function generateListingKey(){

@@ -28,7 +28,7 @@ class OrderController extends Controller
             $placedOrder=Order::create($placedOrder);
         }
 
-        return new Response(['orderNumber' => $placedOrder->id],200);
+        return Response(['orderNumber' => $placedOrder->id],200);
     }
 
     public function isAvailable($key , $quantity)
@@ -44,10 +44,10 @@ class OrderController extends Controller
         $order = Order::find($orderId);
         if (!$order)
             return new Response(['error' => 'Could not find an order with the given order id.'], 400);
-        
+
         return new Response(['order' => $order], 200);
     }
 
-    
+
 
 }
