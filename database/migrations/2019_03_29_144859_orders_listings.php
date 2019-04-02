@@ -21,6 +21,8 @@ class OrdersListings extends Migration
             $table->unsignedInteger('listing_id');
             $table->foreign('listing_id')
                 ->references('id')->on('listings');
+
+            $table->integer('quantity');
         });
     }
 

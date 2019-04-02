@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\Order as OrderResource;
 use Illuminate\Http\Request;
 use App\Listing;
 use Illuminate\Auth\Access\Response;
@@ -33,8 +33,9 @@ class OrderController extends Controller
 
         foreach ($orders['orders'] as $order) {
             $listing=Listing::where('key', '=' ,$order['key'])->first();
-            $listing->decrement('quantity');
-            $placedOrder->listings()->attach($listing);
+            $listing->decrement('quantity',$order['quantity']);
+            // dd($listing);
+            $placedOrder->listings()->save($listing,['quantity' => $order['quantity']]);
         }
         return Response(['orderNumber' => $placedOrder->id],200);
     }
@@ -49,7 +50,7 @@ class OrderController extends Controller
     }
 
     public function getOrderDetails($orderId) {
-        $order = Order::find($orderId);
+        $order = new OrderResource(Order::find($orderId));
 
         if (!$order)
             return Response(['error' => 'Could not find an order with the given order id.'], 400);
