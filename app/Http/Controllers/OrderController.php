@@ -21,9 +21,12 @@ class OrderController extends Controller
             if(!$this->isAvailable($order['key'], $order['quantity']))
                 return new Response("Sorry, item is sold out",400);
         }
+        
         $transaction = Transaction::create();
         $user = Auth::user();
         $deliveryAgent = User::where('type','=',1)->first();
+        if(!$deliveryAgent)
+            return Response('no avaliable drivers',400);
         $placedOrder = Order::create([
             'user_id' => $user->id,
             'address_id' => $orders['address_id'],
