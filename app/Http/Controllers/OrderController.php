@@ -65,7 +65,7 @@ class OrderController extends Controller
     public function getUserOrders(){
         $orders = Auth::user()->orders();
         if($orders){
-            $orders = OrderResource::collection($orders);
+            $orders = OrderResource::collection($orders->get());
             return Response($orders, 200);            
         }else
             return Response("user didn't place any orders", 400);
