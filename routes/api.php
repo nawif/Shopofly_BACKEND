@@ -39,6 +39,8 @@ Route::group([
     Route::post('update', 'UserController@update');
     Route::get('address','UserController@getUserAddresses');
     // Route::get('show', 'UserController@show');
+    Route::get('orders', 'OrderController@getUserOrders');
+
 });
 
 

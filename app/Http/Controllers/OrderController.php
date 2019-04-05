@@ -62,5 +62,13 @@ class OrderController extends Controller
     }
 
 
+    public function getUserOrders(){
+        $orders = Auth::user()->orders()->get(); 
+        $orders = OrderResource::collection();
+        return Response($orders, 200);
+
+    }
+
+
 
 }
