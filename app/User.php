@@ -54,7 +54,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function deliveries()
     {
-        return $this->hasMany('App\Delivery');
+        return $this->hasMany('App\Order','delivery_agent_id');
     }
 
     public function addresses()

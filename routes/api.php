@@ -68,6 +68,15 @@ Route::group(['middleware' => ['jwt.auth']],function(){
     );
 });
 
+Route::group(['middleware' => ['jwt.auth']],function(){
+    Route::group([
+        'prefix' => 'agent'
+    ], function () {
+        Route::get('orders','DeliveryController@getAgentAssignedOrders');
+        }
+    );
+});
+
 
 
 
