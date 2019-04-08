@@ -58,7 +58,7 @@ class OrderController extends Controller
         if (!$order)
             return Response(['error' => 'Could not find an order with the given order id.'], 400);
 
-        return Response(['order' => $order], 200);
+        return Response($order, 200);
     }
 
 
