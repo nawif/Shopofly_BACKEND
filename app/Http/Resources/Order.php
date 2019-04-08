@@ -25,7 +25,8 @@ class Order extends JsonResource
             "items" => ListingResource::collection($this->listings),
             "total" => $this->getBill(),
             "address" => new AddressResource($this->address),
-            "customer" => new CustomerResource($this->user)
+            "customer" => new CustomerResource($this->user),
+            "order_id" => $this->id
         ];
     }
 }
