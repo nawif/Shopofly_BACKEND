@@ -71,6 +71,21 @@ class OrderController extends Controller
             return Response("user didn't place any orders", 400);
     }
 
+    public function processTransection(Request $request){
+        $card=$request['card_hash'];
+        if($card){
+            $order = Order::find($request['order_id']);
+            $transaction = $order->transaction()->first();
+            if($transaction->status == $transaction->statusTypes[1]){
+                return Response('Order already been payed for',400);
+            }
+            $transaction = $transaction->update(['status' => $transaction->statusTypes[1]]);
+            return Response('Payment completed!',200);
+        }else
+            return Response('Order could be found',400);
+
+    }
+
 
 
 

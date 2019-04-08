@@ -64,6 +64,7 @@ Route::group(['middleware' => ['jwt.auth']],function(){
         Route::post('addListingImages/{key}','ListingController@addListingImages');
         Route::post('checkout','OrderController@checkOut');
         Route::get('/orders/{orderId}', 'OrderController@getOrderDetails');
+        Route::post('processPayment','OrderController@processTransection');
         }
     );
 });

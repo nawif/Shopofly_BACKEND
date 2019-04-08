@@ -43,7 +43,7 @@ class Order extends Model
 
     public function transaction()
     {
-        return $this->hasOne('App\Transaction');
+        return $this->belongsTo('App\Transaction');
     }
     public function listings()
     {

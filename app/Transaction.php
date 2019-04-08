@@ -24,6 +24,10 @@ class Transaction extends Model
 
     ];
 
+    public $statusTypes =[
+        'pending','processing','approved','rejected'
+    ];
+
     public function delivery()
     {
         return $this->belongsTo('App\Delivery');
