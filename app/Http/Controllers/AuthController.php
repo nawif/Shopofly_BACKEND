@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('mobile_number', 'password');
 
-        if ($token = $this->guard()->attempt($credentials)) {
+        if ($token = $this->guard()->setTTL(60*60*24*7)->attempt($credentials)) {
             return $this->respondWithToken($token);
         }
 
@@ -81,7 +81,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'expires_in' => $this->guard()->factory()->getTTL()
         ]);
     }
 
