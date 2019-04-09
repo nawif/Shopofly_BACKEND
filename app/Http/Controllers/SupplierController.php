@@ -25,7 +25,7 @@ class SupplierController extends Controller
         if (!$Supplier){
             return new Response(['error'=>"error", 'user' => $Supplier],400);
         }
-        return new Response(['Done'=>"done", 'user' => $Supplier],400);
+        return new Response($Supplier,201);
     }
 
     public function getAuthenticatedUser()
