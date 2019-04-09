@@ -60,7 +60,7 @@ class ListingController extends Controller
         $ListingKey=$this->generateListingKey();
         $Listing['key']=$ListingKey;
         $Listing= Listing::create($Listing);
-        return new Response(['listing' => $Listing],200);
+        return new Response($Listing,201);
     }
     public function addListingImages(Request $request, $key){
         $Listing = Listing::where('key', '=', $key)->first();
