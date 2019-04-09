@@ -76,13 +76,14 @@ class OrderController extends Controller
         if($card){
             $order = Order::find($request['order_id']);
             $transaction = $order->transaction()->first();
-            if($transaction->status == $transaction->statusTypes[1]){
-                return Response('Order already been payed for',400);
+            if($transaction->status == $transaction->statusTypes[2]){
+                return Response(["message" => 'Order already been payed for'],400);
             }
-            $transaction = $transaction->update(['status' => $transaction->statusTypes[1]]);
-            return Response('Payment completed!',200);
+            $transaction->update(['status' => $transaction->statusTypes[1]]);
+            $transaction->update(['status' => $transaction->statusTypes[2]]);
+            return Response(["message" => 'Payment completed!'],200);
         }else
-            return Response('Order could be found',400);
+            return Response(["message" => 'Order could be found'],400);
 
     }
 
