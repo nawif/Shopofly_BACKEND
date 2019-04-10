@@ -49,6 +49,11 @@ class Listing extends Model
         return $this->hasMany('App\ListingSpecification');
     }
 
+    public function orderedQuantity()
+    {
+        return $this->belongsToMany('App\Listing','orders_listings')->withPivot('quantity');
+    }
+
 
 
 }
