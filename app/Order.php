@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Classes\Qrcode;
 
 class Order extends Model
 {
@@ -63,6 +64,26 @@ class Order extends Model
         $bill['vat']=round($total*$this->VAT, 2);
         $bill['total_with_vat']=round($total*(1+$this->VAT), 2);
         return $bill;
+    }
+
+    public function getHalalahCode()
+    {
+        $inputs = array(
+            "merchant_category_code"=> env("HALALAH_MERCHANT_CATEGORY_CODE"),
+            "merchant_name"=> env("HALALAH_MERCHANT_NAME"),
+            "merchant_city"=> env("HALALAH_MERCHANT_CITY"),
+            "postal_code"=> env("HALALAH_MERCHANT_POSTAL"),
+            "merchant_name_ar"=> env("HALALAH_MERCHANT_NAME_AR"),
+            "merchant_city_ar"=> env("HALALAH_MERCHANT_CITY_AR"),
+            "amount"=> $this->getBill()['total_with_vat'],
+            "bill"=> $this->transaction->id,
+            "reference"=> $this->id,
+            "terminal"=> env("HALALAH_TERMINAL_ID")
+        );
+
+        $qrcode = new Qrcode($inputs);
+        return  $qrcode->output();
+
     }
 
 

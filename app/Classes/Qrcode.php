@@ -1,4 +1,5 @@
 <?php
+namespace App\Classes;
 class Qrcode
 {
     const VERSION = '000201';

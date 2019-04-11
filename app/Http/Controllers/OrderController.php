@@ -11,6 +11,7 @@ use App\Order;
 use App\Delivery;
 use App\Transaction;
 use App\User;
+use App\Classes\Qrcode;
 
 class OrderController extends Controller
 {
@@ -21,7 +22,7 @@ class OrderController extends Controller
             if(!$this->isAvailable($order['key'], $order['quantity']))
                 return new Response("Sorry, item is sold out",400);
         }
-        
+
         $transaction = Transaction::create();
         $user = Auth::user();
         $deliveryAgent = User::where('type','=',1)->first();
@@ -66,7 +67,7 @@ class OrderController extends Controller
         $orders = Auth::user()->orders();
         if($orders){
             $orders = OrderResource::collection($orders->get());
-            return Response($orders, 200);            
+            return Response($orders, 200);
         }else
             return Response("user didn't place any orders", 400);
     }
@@ -86,7 +87,11 @@ class OrderController extends Controller
             return Response(["message" => 'Order could be found'],400);
 
     }
-
+    public function getHalalahQRC($id)
+    {
+        $order = Order::find($id);
+        return Response($order->getHalalahCode(), 200);
+    }
 
 
 
