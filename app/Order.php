@@ -66,8 +66,7 @@ class Order extends Model
         return $bill;
     }
 
-    public function getHalalahCode()
-    {
+    public function getHalalahCode(){
         $inputs = array(
             "merchant_category_code"=> env("HALALAH_MERCHANT_CATEGORY_CODE"),
             "merchant_name"=> env("HALALAH_MERCHANT_NAME"),

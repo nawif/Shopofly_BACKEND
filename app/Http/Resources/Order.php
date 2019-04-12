@@ -30,6 +30,7 @@ class Order extends JsonResource
             "customer" => new CustomerResource($this->user),
             "order_id" => $this->id,
             "transaction" => new TransactionResource($this->transaction),
+            "halalah_code" => $this->getHalalahCode()
         ];
     }
 }
