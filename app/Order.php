@@ -67,7 +67,7 @@ class Order extends Model
     }
 
     public function getHalalahCode(){
-
+        // dd($this->transaction->id);
         $inputs = array(
             "merchant_category_code"=> env("HALALAH_MERCHANT_CATEGORY_CODE"),
             "merchant_name"=> env("HALALAH_MERCHANT_NAME"),

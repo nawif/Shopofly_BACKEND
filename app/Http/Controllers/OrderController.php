@@ -96,8 +96,9 @@ class OrderController extends Controller
 
     public function getHalalahBillStatus($id){
         $client = new GuzzleHttp\Client();
+        $order = Order::find($id);
         $token = "Bearer ".$this->getHalalahToken()['access_token'];
-        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL_ID")."/".$id;
+        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL")."/".$id;
         $headers = ['Content-Type' => 'application/json','Authorization' => $token];
         $r = $client->request('GET', $link, ['headers' => $headers]);
         $status = intval($r->getStatusCode());
