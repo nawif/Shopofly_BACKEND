@@ -98,7 +98,7 @@ class OrderController extends Controller
         $order = Order::find($id)->first();
         $client = new GuzzleHttp\Client();
         $token = "Bearer ".$this->getHalalahToken()['access_token'];
-        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL_ID")."/".$order->getHalalahCode();
+        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL_ID")."/".$order->id;
         $headers = ['Content-Type' => 'application/json','Authorization' => $token];
         $r = $client->request('GET', $link, ['headers' => $headers]);
         $status = intval($r->getStatusCode());
