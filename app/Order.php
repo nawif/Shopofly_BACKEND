@@ -67,6 +67,7 @@ class Order extends Model
     }
 
     public function getHalalahCode(){
+
         $inputs = array(
             "merchant_category_code"=> env("HALALAH_MERCHANT_CATEGORY_CODE"),
             "merchant_name"=> env("HALALAH_MERCHANT_NAME"),
@@ -77,7 +78,7 @@ class Order extends Model
             "amount"=> $this->getBill()['total_with_vat'],
             "bill"=> $this->transaction->id,
             "reference"=> $this->id,
-            "terminal"=> env("HALALAH_TERMINAL_ID")
+            "terminal"=> env("HALALAH_TERMINAL")
         );
 
         $qrcode = new Qrcode($inputs);
