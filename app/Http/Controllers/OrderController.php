@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Order as OrderResource;
 use Illuminate\Http\Request;
 use App\Listing;
-use Illuminate\Auth\Access\Response;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use App\Order;
@@ -13,6 +12,7 @@ use App\Transaction;
 use App\User;
 use App\Classes\Qrcode;
 use GuzzleHttp;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -97,19 +97,28 @@ class OrderController extends Controller
     public function getHalalahBillStatus($id){
         $order = Order::find($id)->first();
         $client = new GuzzleHttp\Client();
-        $token = "Bearer "."eyJhbGciOiJSUzI1NiIsImtpZCI6IjZCN0FDQzUyMDMwNUJGREI0RjcyNTJEQUVCMjE3N0NDMDkxRkFBRTEiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJhM3JNVWdNRnY5dFBjbExhNnlGM3pBa2ZxdUUifQ.eyJuYmYiOjE1NTUxMTA3NTcsImV4cCI6MTU1NTExNDM1NywiaXNzIjoiaHR0cHM6Ly9sb2dpbi5oYWxhbGFoLnNhLyIsImF1ZCI6WyJodHRwczovL2xvZ2luLmhhbGFsYWguc2EvcmVzb3VyY2VzIiwic2NvcGVfZXh0X29yZGVyX2d3X2FwaSJdLCJjbGllbnRfaWQiOiJoYWxhbGFoX29yZGVyc19zYXVkIiwic2NvcGUiOlsic2NvcGVfZXh0X29yZGVyX2d3X2FwaSJdfQ.hnHrW9q4XBk1U8ZvTCvbSND2ArX6VkrGcnT5UQkQAQ80-gGNYW3Iq7xelT7cBpRFlRLrH421PG0Q69fQ07usDuvFKOrXVGWpWZQLTF9TVDBd2yYigvac3czLfVXv7RvP4X2_KX2C1yobdqbNNTDbBMN96N9SfqVwvvMUjAwUDRu2kAO-CqoUORsveZxjw-50tK3OqB0YOqSd9ppsH2er_xzioe_IM82cl3JLt7uJTTInUl_z-7l4My0vBB9n4dHJ6yLW0wlxtH-LHzmzds1l48g_4nS_yrWTKALJhjnrR9-NZ0YJjHn8MXUarYKkJr53zS9BPm9aOrfe7I3InwuwBw";
+        $token = "Bearer ".$this->getHalalahToken()['access_token'];
         $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL_ID")."/".$order->getHalalahCode();
         $headers = ['Content-Type' => 'application/json','Authorization' => $token];
         $r = $client->request('GET', $link, ['headers' => $headers]);
         $status = intval($r->getStatusCode());
-        return Response($status==200 . '',$status);
+        $result = ['paid' => $status==200];
+        return new Response($result, $status);
     }
 
     public function getHalalahToken()
     {
         $client = new GuzzleHttp\Client();
-        $link= " https://login.halalah.sa/connect/token";
+        $link= "https://login.halalah.sa/connect/token";
         $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
+        $body = [
+            'grant_type' => 'client_credentials',
+            'client_id' => env("HALALAH_CLIENT_ID"),
+            'client_secret' => env('HALALAH_CLIENT_SECRET'),
+            'scope' => 'scope_ext_order_gw_api',
+        ];
+        $response = $client->request('POST', $link, ['form_params' => $body, 'headers' => $headers]);
+        return json_decode($response->getBody(), true);
 
     }
 
