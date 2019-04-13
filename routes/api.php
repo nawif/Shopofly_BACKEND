@@ -75,6 +75,8 @@ Route::group(['middleware' => ['jwt.auth']],function(){
     ], function () {
         Route::get('orders','DeliveryController@getAgentAssignedOrders');
         Route::get('getQR/{id}','OrderController@getHalalahQRC');
+        Route::get('billstatus/{id}','OrderController@getHalalahBillStatus');
+
         }
     );
 });
