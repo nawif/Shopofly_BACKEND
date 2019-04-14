@@ -39,6 +39,7 @@ Route::group([
     Route::get('address','UserController@getUserAddresses');
     Route::get('show', 'UserController@show');
     Route::get('orders', 'OrderController@getUserOrders');
+    Route::post('address', 'UserController@addAddress');
 
 });
 

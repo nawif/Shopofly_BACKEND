@@ -20,6 +20,7 @@ class CreateListingImagesTable extends Migration
             ->references('id')->on('listings')
             ->onDelete('cascade');
             $table->string('image_name');
+            $table->string('type')->default('image');
             $table->timestamps();
         });
     }

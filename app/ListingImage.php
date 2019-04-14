@@ -12,7 +12,7 @@ class ListingImage extends Model
      * @var array
      */
     protected $fillable = [
-        'image_name', 'listing_id'
+        'image_name', 'listing_id', 'type'
     ];
 
     /**
@@ -28,4 +28,5 @@ class ListingImage extends Model
     {
         return $this->belongsTo('App\Listing');
     }
+
 }

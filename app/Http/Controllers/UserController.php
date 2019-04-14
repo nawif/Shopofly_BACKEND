@@ -83,7 +83,6 @@ class UserController extends Controller
         public function authenticate(Request $request){
 
         }
-        //TODO: SECURITY CHECKS, ERROR HANDLING
         public function getUserAddresses(){
             $userAddress=$this->getAuthenticatedUser()->addresses()->get();
             return response()->json($userAddress,200);
@@ -91,7 +90,7 @@ class UserController extends Controller
 
         public function addAddress(Request $request) {
             $validator = Validator::make($request->all(),[
-                'status' => 'required',
+                'label' => 'required',
                 'city' => 'required',
                 'country' => 'required',
                 'district' => 'required',
@@ -106,7 +105,7 @@ class UserController extends Controller
             if (!$user)
                 return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
 
-            $fields = $request->only(['status', 'city', 'country', 'district', 'street', 'house_number']);
+            $fields = $request->only(['status', 'city', 'country', 'district', 'street', 'house_number','label']);
             $fields['user_id'] = $user->id;
             $address = Address::create($fields);
             if (!$address)

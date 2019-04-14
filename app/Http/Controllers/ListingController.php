@@ -71,11 +71,12 @@ class ListingController extends Controller
         $folder="public/listingsImages";
         if(!empty($files)) {
             foreach($files as $file) {
-                $ListingImage['image_name']=$this->generateImagesNames().".jpg";
+                $ListingImage['image_name']=$this->generateImagesNames().".".$file->getClientOriginalExtension();
                 $ListingImage['listing_id']=$Listing['id'];
                 Storage::put($folder."/".$ListingImage['image_name'],file_get_contents($file));
+                if(str_contains($file->getClientOriginalExtension(),["obj","mtl"]))
+                    $ListingImage['type'] = "ar";
                 ListingImage::create($ListingImage);
-
             }
         }
         return new Response("image added!",200);

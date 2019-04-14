@@ -31,7 +31,12 @@ class Listing extends Model
 
     public function images()
     {
-        return $this->hasMany('App\ListingImage');
+        return($this->hasMany('App\ListingImage')->where('type','=','image')->get());
+    }
+
+    public function ArObject()
+    {
+        return($this->hasMany('App\ListingImage')->where('type','!=','image')->get());
     }
 
     public function reviews()
