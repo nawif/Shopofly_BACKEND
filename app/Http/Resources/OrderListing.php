@@ -28,7 +28,7 @@ class OrderListing extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
             'supplier' => new SupplierResource($this->supplier),
-            'image_url' => ListingImageResource::collection($this->images),
+            'image_url' => ListingImageResource::collection($this->images()),
         ];
     }
 }
