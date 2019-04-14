@@ -77,7 +77,7 @@ class Order extends Model
             "merchant_city_ar"=> env("HALALAH_MERCHANT_CITY_AR"),
             "amount"=> $this->getBill()['total_with_vat'],
             "bill"=> $this->transaction->id,
-            "reference"=> $this->id.$this->created_at,
+            "reference"=> $this->id.$this->created_at.$this->created_at.$this->delivery_agent_id.$this->transaction_id,
             "terminal"=> env("HALALAH_TERMINAL")
         );
 
