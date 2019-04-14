@@ -88,4 +88,11 @@ class ListingController extends Controller
             return new Response(['error' => "unvalid supplier"],400);
         return new Response (ListingResource::collection($Supplier->listings()->get()),200);
     }
+
+    public function getListingAR($key)
+    {
+        $Listing = Listing::find('key','=',$key);
+
+        
+    }
 }

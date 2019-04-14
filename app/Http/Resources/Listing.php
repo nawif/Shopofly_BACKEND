@@ -27,6 +27,8 @@ class Listing extends JsonResource
             'updated_at' => $this->updated_at->toDateTimeString(),
             'supplier' => new SupplierResource($this->supplier),
             'image_url' => ListingImageResource::collection($this->images()),
+            'ar_url'    => ListingImageResource::collection($this->ArObject()),
+
         ];
     }
 }
