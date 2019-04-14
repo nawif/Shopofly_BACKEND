@@ -1,9 +1,8 @@
 <?php
-// @codingStandardsIgnoreStart
 
-use Illuminate\Http\Request;
 
 /*
+|
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -38,7 +37,7 @@ Route::group([
 ], function () {
     Route::post('update', 'UserController@update');
     Route::get('address','UserController@getUserAddresses');
-    // Route::get('show', 'UserController@show');
+    Route::get('show', 'UserController@show');
     Route::get('orders', 'OrderController@getUserOrders');
 
 });
@@ -52,7 +51,7 @@ Route::group([
     Route::post('register','SupplierController@store');
 });
 
-// Protected End points, (has to be logged in to access)
+// Protected End points, (has to be logged in to access) addAddress
 Route::group(['middleware' => ['jwt.auth']],function(){
     Route::group([
         'prefix' => 'store'
@@ -69,6 +68,7 @@ Route::group(['middleware' => ['jwt.auth']],function(){
     );
 });
 
+// Protected End points, (has to be logged in to access)
 Route::group(['middleware' => ['jwt.auth']],function(){
     Route::group([
         'prefix' => 'agent'
@@ -80,7 +80,3 @@ Route::group(['middleware' => ['jwt.auth']],function(){
         }
     );
 });
-
-
-
-

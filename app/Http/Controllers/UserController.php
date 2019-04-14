@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -47,9 +47,11 @@ class UserController extends Controller
         }
 
         public function update(Request $request) {
+            $user = Auth::user();
             $validator = Validator::make($request->all(),[
-                'mobile_number' => 'required| unique:users',
-                'password' => 'required| min:8| max:26',
+                'mobile_number' => 'nullable| unique:users,mobile_number,'.$user->id,
+                'new_password' => 'nullable| min:8| max:26',
+                'old_password' => 'nullable| min:8| max:26',
                 'name' => 'nullable',
                 'email' => 'nullable|email'
 
@@ -61,12 +63,18 @@ class UserController extends Controller
             $user = Auth::user();
             if (!$user)
                 return new Response(['error' => 'Token is invalid or expired'], 400);
-            $fields = $request->only(['mobile_number', 'password', 'name', 'email']);
-            $user->mobile_number = $request->mobile_number;
-            $user->password = $request->password;
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $fields = $request->only(['mobile_number', 'old_password', 'new_password', 'name', 'email']);
+            if(isset($fields['mobile_number']))
+                $user->mobile_number = $fields['mobile_number'];
+            if(isset($fields['old_password'], $fields['new_password']) && Hash::check($fields['old_password'], $user->password) ){
+                $user->password = Hash::make($fields['new_password']);
+            }
+            if(isset($fields['name']))
+                $user->name = $fields['name'];
+            if(isset($fields['email']))
+                $user->email = $fields['email'];
             $user->save();
+            return new Response(['message' => 'Profile Updated!'],200);
         }
 
 
@@ -95,13 +103,13 @@ class UserController extends Controller
             $user = Auth::user();
             if (!$user)
                 return new Response(['error'=>"validator", 'cause by' => $validator->messages()->first()],400);
-            
+
             $fields = $request->only(['status', 'city', 'country', 'district', 'street', 'house_number']);
             $fields['user_id'] = $user->id;
             $address = Address::create($fields);
             if (!$address)
                 return new Response(['error' => 'Could not create address, please try again.'], 400);
-            
+
             return new Response(['address' => $address], 200);
 
         }
@@ -130,7 +138,7 @@ class UserController extends Controller
 
                 return $user;
         }
-        
+
         public function isLoggedIn(){
             $user=$this->getAuthenticatedUser();
             return new Response(['error'=>"error", 'user' => $user],400);
