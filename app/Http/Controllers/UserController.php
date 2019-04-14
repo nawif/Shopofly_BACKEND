@@ -66,7 +66,9 @@ class UserController extends Controller
             $fields = $request->only(['mobile_number', 'old_password', 'new_password', 'name', 'email']);
             if(isset($fields['mobile_number']))
                 $user->mobile_number = $fields['mobile_number'];
-            if(isset($fields['old_password'], $fields['new_password']) && Hash::check($fields['old_password'], $user->password) ){
+            if(isset($fields['old_password'], $fields['new_password'])){
+                if(!Hash::check($fields['old_password'], $user->password))
+                    return new Response(['cause by' => "Passwords didn't match!"], 400);
                 $user->password = Hash::make($fields['new_password']);
             }
             if(isset($fields['name']))
