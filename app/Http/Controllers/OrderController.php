@@ -99,7 +99,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $transaction = $order->transaction()->first();
         $token = "Bearer ".$this->getHalalahToken()['access_token'];
-        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL")."/".$id;
+        $link= "https://apigw.halalah.sa/Orders/v2/Order/".env("HALALAH_TERMINAL")."/".$id.$order->created_at;
         $headers = ['Content-Type' => 'application/json','Authorization' => $token];
         $r = $client->request('GET', $link, ['headers' => $headers]);
         $status = intval($r->getStatusCode());
